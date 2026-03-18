@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-const {Provider, Consumer} = React.createContext()
 import quotes from './Quotes.json'
+const {Provider, Consumer} = React.createContext()
+
 
 class QuoteProvider extends Component{
     constructor(props){
