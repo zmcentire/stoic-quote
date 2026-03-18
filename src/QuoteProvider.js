@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import Axios from 'axios'
 const {Provider, Consumer} = React.createContext()
+import quotes from './quotes.json'
 
 class QuoteProvider extends Component{
     constructor(props){
         super(props);
-
         this.state = {
             quote: '',
             author: '',
@@ -13,29 +12,23 @@ class QuoteProvider extends Component{
     }
 
     getQuote = () => {
-        Axios.get('https://randomstoicquotesapi.herokuapp.com/api/v1/quotes').then(res =>{
-            let data = res.data.data
-            let included = res.data.included
-            let quoteNum = Math.floor(Math.random() * data.length)
-            // let authorNum = Math.floor(Math.random() * included.length)
-            let randomQuote = data[quoteNum]
-            let authId = +randomQuote.relationships.author.data.id
-            let author = included.find(auth => auth.id === authId)
-            // console.log(author.attributes.name)
-            // let randomAuthor = included[authorNum]
-            // console.log(randomAuthor)
-            // if(+randomQuote.relationships.author.data.id === +randomAuthor.id){
-                this.setState({
-                    quote: randomQuote.attributes.text,
-                    author: author.attributes.name
-                })
-                // quote: randomQuote.attributes.text,
-                // author: randomAuthor.attributes.name
-            // }
-        })
-    }
+    const allQuotes = [
+        ...quotes.Adversity,
+        ...quotes.Mortality,
+        ...quotes.MentalWellness
+    ]
+    
+    const randomIndex = Math.floor(Math.random() * allQuotes.length)
+    const randomQuote = allQuotes[randomIndex]
+    
+    this.setState({
+        quote: randomQuote.Quote,
+        author: randomQuote.Author
+    })
 
-    render() {
+}
+
+    render(){
         return (
             <Provider value = {{
                 ...this.state,
